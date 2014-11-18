@@ -22,21 +22,25 @@ User.prototype.save = function save(callback) {
             }
             // 为 name 属性添加索引
             collection.ensureIndex('name', {
-                unique: true
-            });
+                unique: true},
+                function (err) {
+                    console.log('Error1:' + err);
+                });
             // 写入 user 文档
             collection.insert(user, function (err, user) {
-                 
-                if(err){
+
+                if (err) {
                     return callback(err);
                 }
-                     callback(null);
-                
-                
-            
+                callback(null);
+                db.close(function (err, post) {
+                    console.log('Error2:' + err);
+                });
+
+
+            });
         });
     });
-   });
 };
 User.get = function get(username, callback) {
     mongodb.open(function (err, db) {
