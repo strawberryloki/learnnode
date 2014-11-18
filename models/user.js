@@ -18,22 +18,25 @@ User.prototype.save = function save(callback) {
         // 读取 users 集合
         db.collection('users', function (err, collection) {
             if (err) {
-                mongodb.close();
-                return callback(err);
+                return mongodb.close(callback(err));
             }
             // 为 name 属性添加索引
             collection.ensureIndex('name', {
                 unique: true
             });
             // 写入 user 文档
-            collection.insert(user, {
-                safe: true
-            }, function (err, user) {
-                mongodb.close();
-                callback(err, user);
-            });
+            collection.insert(user, function (err, user) {
+                 
+                if(err){
+                    return callback(err);
+                }
+                     callback(null);
+                
+                
+            
         });
     });
+   });
 };
 User.get = function get(username, callback) {
     mongodb.open(function (err, db) {

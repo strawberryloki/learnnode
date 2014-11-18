@@ -1,6 +1,7 @@
 var express = require('express');
 var User = require('../models/user.js')
 var router = express.Router();
+var crypto = require('crypto');
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -42,16 +43,18 @@ router.post('/reg', function (req, res) {
             err = 'Username already exists.';
         if (err) {
             req.session.error = err;
+            console.log("Error Here 1");
             return res.redirect('/reg');
         }
         //如果不存在则新增用户
         newUser.save(function (err) {
             if (err) {
                  req.session.error = err;
+                console.log("Error Here 2");
                 return res.redirect('/reg');
             }
             req.session.user = newUser;
-             req.session.success = '注册成功';
+            req.session.success = '注册成功';
             res.redirect('/');
         });
     });

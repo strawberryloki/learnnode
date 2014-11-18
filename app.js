@@ -12,6 +12,7 @@ var MongoStore = require('connect-mongo')(session);
 var settings = require('./settings');
 
 
+
 var app = express();
 
 // view engine setup
@@ -46,11 +47,11 @@ app.use(function (req, res, next) {
 //      var success = req.session.success;
     
       res.locals.error = (req.session.error != null) ? req.session.error : null;
-      res.locals.success = (req.session.error != null) ? req.session.success : null;
-      
+      res.locals.success = (req.session.success != null) ? req.session.success : null;
+    console.info('error '+ res.locals.error);
+    console.info('success '+ res.locals.success);
     req.session.error = null;
-    req.session.error = null;
-    console.info('error '+res.locals.error);
+    req.session.success = null;
     
     next();
 });
